@@ -1,0 +1,5 @@
+*.jpg
+.env
+.gitattributes
+*env
+.DS_Store

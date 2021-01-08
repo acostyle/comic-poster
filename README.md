@@ -3,12 +3,14 @@ This project allows you to upload comics from `xkcd.com` to the wall of your VK 
 
 ## How to install
 Python3 should be already installed. Then use `pip` (or `pip3`, if there is a conflict with Python2) to install dependencies:
-`pip install -r requirements.txt`
+```
+pip install -r requirements.txt
+```
 
 ## How to use
 Create `.env` with `access_token` and `group_id`
 
-Get your application ID. You need to create an application on [VK Dev](https://vk.com/dev). Then replace `client_id` with your ID here:
+Get your application ID. You need to create an application on [VK Dev](https://vk.com/dev). Then input your ID after `client_id` here:
 ```
 https://oauth.vk.com/authorize?client_id=&scope=stories,photos,docs,manage,wall&response_type=token&v=5.
 ```

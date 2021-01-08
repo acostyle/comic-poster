@@ -22,20 +22,6 @@ def download_comic(url, comic_id):
         return file.write(response.content)
 
 
-def get_user_groups(vk_access_token):
-    url = 'https://api.vk.com/method/groups.get'
-    payload={
-        'extended': '1',
-        'access_token': vk_access_token,
-        'v': '5.126'
-    }
-
-    response = requests.get(url, params=payload, verify=False)
-    response.raise_for_status()
-
-    return response.json()
-
-
 def get_upload_url(vk_access_token, vk_group_id):
     url = 'https://api.vk.com/method/photos.getWallUploadServer'
     payload = {

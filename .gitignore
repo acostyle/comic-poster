@@ -1,5 +1,10 @@
 *.jpg
-.env
 .gitattributes
-*env
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
 .DS_Store

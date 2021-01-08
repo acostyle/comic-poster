@@ -49,10 +49,11 @@ def upload_picture_on_server(vk_access_token, vk_group_id, comic_id, upload_url)
         }
 
         response = requests.post(upload_url, files=files)
-        response.raise_for_status()
-    server = response.json()['server']
-    photo = response.json()['photo']
-    upload_hash = response.json()['hash']
+        decoded_response = response.json()
+        check_error(decoded_response)
+    server = decoded_response['server']
+    photo = decoded_response['photo']
+    upload_hash = decoded_response['hash']
 
     return server, photo, upload_hash
 

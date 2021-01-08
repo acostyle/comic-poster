@@ -13,13 +13,18 @@ def get_comic_information(comic_id):
     return response.json()
 
 
+def check_error(decoded_response):
+    if 'error' in decoded_response:
+        raise requests.exceptions.HTTPError(decoded_response['error'])
+
+
 def download_comic(url, comic_id):
     response = requests.get(url, verify=False)
     response.raise_for_status()
 
     filename = f'comic{comic_id}.jpg'
     with open(filename, 'wb') as file:
-        return file.write(response.content)
+        file.write(response.content)
 
 
 def get_upload_url(vk_access_token, vk_group_id):
@@ -31,9 +36,10 @@ def get_upload_url(vk_access_token, vk_group_id):
     }
 
     response = requests.get(url, params=payload)
-    response.raise_for_status()
+    decoded_response = response.json()
+    check_error(decoded_response)
 
-    return response.json()['response']['upload_url']
+    return decoded_response['response']['upload_url']
 
 
 def upload_picture_on_server(vk_access_token, vk_group_id, comic_id, upload_url):
@@ -44,7 +50,6 @@ def upload_picture_on_server(vk_access_token, vk_group_id, comic_id, upload_url)
 
         response = requests.post(upload_url, files=files)
         response.raise_for_status()
-    
     server = response.json()['server']
     photo = response.json()['photo']
     upload_hash = response.json()['hash']
@@ -66,8 +71,10 @@ def save_wall_picture(vk_group_id, vk_access_token, comic_id, upload_url):
     }
 
     response = requests.post(url, params=payload)
+    decoded_response = response.json()
+    check_error(decoded_response)
 
-    return response.json()
+    return decoded_response
 
 
 def post_wall(picture_id, owner_id, comic_name, vk_access_token, vk_group_id):
@@ -80,9 +87,10 @@ def post_wall(picture_id, owner_id, comic_name, vk_access_token, vk_group_id):
         'v': '5.122'
     }
     response = requests.post(url, params=payload)
-    response.raise_for_status()
+    decoded_response = response.json()
+    check_error(decoded_response)
 
-    return response.json()
+    return decoded_response
 
 
 def main():
@@ -102,7 +110,6 @@ def main():
         download_comic(comic_url, random_comic_id)
 
         upload_url = get_upload_url(vk_access_token, vk_group_id)
-        
         decoded_json = save_wall_picture(vk_group_id, vk_access_token, random_comic_id, upload_url)
         picture_id = decoded_json['response'][0]['id']
         owner_id = decoded_json['response'][0]['owner_id']
@@ -115,8 +122,6 @@ def main():
             path = os.path.join(
                 os.path.abspath(os.path.dirname(__file__)), f'comic{random_comic_id}.jpg')
             os.remove(path)
-
-
 
 
 if __name__=='__main__':

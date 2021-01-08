@@ -42,7 +42,11 @@ def get_upload_url(vk_access_token, vk_group_id):
     return decoded_response['response']['upload_url']
 
 
-def upload_picture_on_server(vk_access_token, vk_group_id, comic_id, upload_url):
+def upload_picture_on_server(
+        vk_access_token,
+        vk_group_id,
+        comic_id,
+        upload_url):
     with open(f"comic{comic_id}.jpg", 'rb') as file:
         files = {
             'photo': file,
@@ -59,7 +63,8 @@ def upload_picture_on_server(vk_access_token, vk_group_id, comic_id, upload_url)
 
 
 def save_wall_picture(vk_group_id, vk_access_token, comic_id, upload_url):
-    server, photo, upload_hash = upload_picture_on_server(vk_access_token, vk_group_id, comic_id, upload_url)
+    server, photo, upload_hash = upload_picture_on_server(
+        vk_access_token, vk_group_id, comic_id, upload_url)
 
     url = 'https://api.vk.com/method/photos.saveWallPhoto'
     payload = {
@@ -78,7 +83,12 @@ def save_wall_picture(vk_group_id, vk_access_token, comic_id, upload_url):
     return decoded_response
 
 
-def post_picture_on_wall(picture_id, owner_id, comic_name, vk_access_token, vk_group_id):
+def post_picture_on_wall(
+        picture_id,
+        owner_id,
+        comic_name,
+        vk_access_token,
+        vk_group_id):
     url = 'https://api.vk.com/method/wall.post'
     payload = {
         "attachments": f"photo{owner_id}_{picture_id}",
@@ -97,7 +107,9 @@ def post_picture_on_wall(picture_id, owner_id, comic_name, vk_access_token, vk_g
 def delete_picture(random_comic_id):
     if os.path.exists(f'comic{random_comic_id}.jpg'):
         path = os.path.join(
-            os.path.abspath(os.path.dirname(__file__)), f'comic{random_comic_id}.jpg')
+            os.path.abspath(
+                os.path.dirname(__file__)),
+            f'comic{random_comic_id}.jpg')
         os.remove(path)
 
 
@@ -118,15 +130,21 @@ def main():
         download_comic(comic_url, random_comic_id)
 
         upload_url = get_upload_url(vk_access_token, vk_group_id)
-        wall_picture = save_wall_picture(vk_group_id, vk_access_token, random_comic_id, upload_url)
+        wall_picture = save_wall_picture(
+            vk_group_id, vk_access_token, random_comic_id, upload_url)
         picture_id = wall_picture['response'][0]['id']
         owner_id = wall_picture['response'][0]['owner_id']
 
-        post_picture_on_wall(picture_id, owner_id, comic_name, vk_access_token, vk_group_id)
+        post_picture_on_wall(
+            picture_id,
+            owner_id,
+            comic_name,
+            vk_access_token,
+            vk_group_id)
         delete_picture(random_comic_id)
     except requests.exceptions.HTTPError:
-        print('HTTP Error')        
+        print('HTTP Error')
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     main()

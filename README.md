@@ -14,12 +14,12 @@ Get your application ID. You need to create an application on [VK Dev](https://v
 ```
 https://oauth.vk.com/authorize?client_id=&scope=stories,photos,docs,manage,wall&response_type=token&v=5.
 ```
-Allow the application to access the page, copy the `access_token` from the address bar and paste it into the `ACCESS_TOKEN` variable. In the `GROUP_ID` variable write the ID of your group.
+Allow the application to access the page, copy the `access_token` from the address bar and paste it into the `VK_ACCESS_TOKEN` variable. In the `VK_GROUP_ID` variable write the ID of your group.
 
 Example of `.env`:
 ```
-ACCESS_TOKEN=your_access_token
-GROUP_ID=your_group_id
+VK_ACCESS_TOKEN=your_access_token
+VK_GROUP_ID=your_group_id
 ```
 ## How to run
 `python main.py`

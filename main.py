@@ -77,9 +77,9 @@ def save_wall_picture(vk_group_id, vk_access_token, comic_id, upload_url):
     return decoded_response
 
 
-def post_wall(picture_id, owner_id, comic_name, vk_access_token, vk_group_id):
+def post_picture_on_wall(picture_id, owner_id, comic_name, vk_access_token, vk_group_id):
     url = 'https://api.vk.com/method/wall.post'
-    payload={
+    payload = {
         "attachments": f"photo{owner_id}_{picture_id}",
         'owner_id': f'-{vk_group_id}',
         "message": comic_name,
@@ -121,7 +121,7 @@ def main():
         picture_id = wall_picture['response'][0]['id']
         owner_id = wall_picture['response'][0]['owner_id']
 
-        post_wall(picture_id, owner_id, comic_name, vk_access_token, vk_group_id)
+        post_picture_on_wall(picture_id, owner_id, comic_name, vk_access_token, vk_group_id)
         delete_picture(random_comic_id)
     except requests.exceptions.HTTPError:
         print('HTTP Error')        

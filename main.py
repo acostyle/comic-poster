@@ -117,9 +117,9 @@ def main():
         download_comic(comic_url, random_comic_id)
 
         upload_url = get_upload_url(vk_access_token, vk_group_id)
-        decoded_json = save_wall_picture(vk_group_id, vk_access_token, random_comic_id, upload_url)
-        picture_id = decoded_json['response'][0]['id']
-        owner_id = decoded_json['response'][0]['owner_id']
+        wall_picture = save_wall_picture(vk_group_id, vk_access_token, random_comic_id, upload_url)
+        picture_id = wall_picture['response'][0]['id']
+        owner_id = wall_picture['response'][0]['owner_id']
 
         post_wall(picture_id, owner_id, comic_name, vk_access_token, vk_group_id)
         delete_picture(random_comic_id)

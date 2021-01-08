@@ -93,6 +93,13 @@ def post_wall(picture_id, owner_id, comic_name, vk_access_token, vk_group_id):
     return decoded_response
 
 
+def delete_picture(random_comic_id):
+    if os.path.exists(f'comic{random_comic_id}.jpg'):
+        path = os.path.join(
+            os.path.abspath(os.path.dirname(__file__)), f'comic{random_comic_id}.jpg')
+        os.remove(path)
+
+
 def main():
     load_dotenv()
 
@@ -115,13 +122,9 @@ def main():
         owner_id = decoded_json['response'][0]['owner_id']
 
         post_wall(picture_id, owner_id, comic_name, vk_access_token, vk_group_id)
+        delete_picture(random_comic_id)
     except requests.exceptions.HTTPError:
-        print('HTTP Error')
-    finally:
-        if os.path.exists(f'comic{random_comic_id}.jpg'):
-            path = os.path.join(
-                os.path.abspath(os.path.dirname(__file__)), f'comic{random_comic_id}.jpg')
-            os.remove(path)
+        print('HTTP Error')        
 
 
 if __name__=='__main__':

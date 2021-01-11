@@ -143,7 +143,7 @@ def main():
             vk_group_id)
         delete_picture(random_comic_id)
     except requests.exceptions.HTTPError:
-        print('HTTP Error')
+        exit('Ошибка! Проблемы с интернет подключением')
 
 
 if __name__ == '__main__':

@@ -55,6 +55,7 @@ def upload_picture_on_server(
         response = requests.post(upload_url, files=files)
         decoded_response = response.json()
         check_error(decoded_response)
+        
     server = decoded_response['server']
     photo = decoded_response['photo']
     upload_hash = decoded_response['hash']
@@ -142,8 +143,10 @@ def main():
             vk_access_token,
             vk_group_id)
         delete_picture(random_comic_id)
-    except requests.exceptions.HTTPError:
-        exit('Ошибка! Проблемы с интернет подключением')
+    except requests.exceptions.HTTPError as http_error:
+        exit(http_error)
+    except requests.exceptions.ConnectionError as connection_error:
+        exit(connection_error)
 
 
 if __name__ == '__main__':
